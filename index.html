@@ -49,13 +49,20 @@
         }
 
         .logo-container { display:flex; align-items:center; gap:1rem; }
-        .logo-img { width:50px; height:50px; object-fit:contain; transition:transform .3s ease; }
-        .logo-img:hover { transform: scale(1.05); }
-        .logo { font-size:1.5rem; font-weight:600; letter-spacing:2px; }
+
+        /* make the small nav logo fade in at page start */
+        .logo-img {
+            width:50px; height:50px; object-fit:contain;
+            transform-origin: center;
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.05s forwards;
+        }
+        .logo { font-size:1.5rem; font-weight:600; letter-spacing:2px; opacity:0; animation: fadeInUp 0.8s 0.12s forwards; }
 
         .nav-links {
             display:flex; gap:3rem; list-style:none;
             font-family:'Montserrat',sans-serif; font-size:0.9rem; letter-spacing:1px;
+            opacity:0; animation: fadeInUp 0.8s 0.18s forwards;
         }
 
         .nav-links a {
@@ -90,37 +97,41 @@
             100% { transform: translate(50px, 50px); }
         }
 
+        /* hero logo — will animate in on load */
         .hero-logo {
-            width: 140px;      /* original size restored */
+            width: 140px;
             height: 140px;
             margin-bottom: 1rem;
             opacity: 0;
-            animation: fadeInUp 1s forwards;
+            transform-origin: center;
+            animation: fadeInUp 0.9s 0.25s forwards;
             filter: drop-shadow(0 4px 20px rgba(0,0,0,0.1));
             position: relative;
             z-index: 1;
         }
 
         .hero h1 {
-            font-size: 5rem;   /* original larger size */
-            font-weight: 300; letter-spacing:4px; margin-bottom:1rem;
-            opacity:0; animation: fadeInUp 1s 0.3s forwards; position:relative; z-index:1;
+            font-size: 5rem;
+            font-weight: 300;
+            letter-spacing:4px;
+            margin-bottom:1rem;
+            opacity:0; animation: fadeInUp 0.9s 0.45s forwards; position:relative; z-index:1;
         }
 
         .hero-subtitle {
             font-size:1.3rem; font-weight:300; letter-spacing:3px; margin-bottom:1rem;
-            opacity:0; animation: fadeInUp 1s 0.6s forwards; position:relative; z-index:1;
+            opacity:0; animation: fadeInUp 0.9s 0.55s forwards; position:relative; z-index:1;
         }
 
         .hero-tagline {
             font-family:'Montserrat',sans-serif; font-size:0.95rem; font-weight:300; letter-spacing:1px;
-            opacity:0.6; max-width:600px; margin-top:2rem; opacity:0; animation: fadeInUp 1s 0.9s forwards;
+            max-width:600px; margin-top:2rem; opacity:0; animation: fadeInUp 0.9s 0.65s forwards;
             position:relative; z-index:1;
         }
 
         @keyframes fadeInUp {
             to { opacity:1; transform: translateY(0); }
-            from { opacity:0; transform: translateY(20px); }
+            from { opacity:0; transform: translateY(18px); }
         }
 
         /* === sections (original spacing) === */
@@ -138,7 +149,6 @@
             padding:3rem 2.5rem; background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(232,228,223,0.8) 100%);
             border:1px solid rgba(44,51,56,0.08); border-radius:12px; transition:all .4s cubic-bezier(.4,0,.2,1);
             position:relative; overflow:hidden; cursor:pointer;
-            /* prevent focus from changing typography */
             -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
         }
         .service-card::before {
@@ -218,12 +228,8 @@
     <!-- NAV -->
     <nav class="nav">
         <div class="logo-container">
-            <!-- prefer PNG first; fallback to inline SVG only if PNG fails -->
-            <img id="main-logo"
-                 src="assets/logo.png"
-                 alt="Velin Media Logo"
-                 class="logo-img"
-                 onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 200 200%27%3E%3Cpath d=%27M60 50 L80 130 M80 50 Q110 90 80 130 M120 50 L120 130%27 stroke=%27%232c3338%27 stroke-width=%275%27 fill=%27none%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E';">
+            <!-- IMPORTANT: old inline SVG removed entirely. Use PNG only. -->
+            <img id="main-logo" src="assets/logo.png" alt="Velin Media Logo" class="logo-img">
             <div class="logo">VELIN MEDIA</div>
         </div>
 
@@ -237,12 +243,7 @@
 
     <!-- HERO -->
     <section class="hero">
-        <!-- prefer PNG first; fallback to inline SVG only if PNG fails -->
-        <img id="hero-logo"
-             class="hero-logo"
-             src="assets/logo.png"
-             alt="Velin Media"
-             onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 200 200%27%3E%3Cpath d=%27M60 50 L80 130 M80 50 Q110 90 80 130 M120 50 L120 130%27 stroke=%27%232c3338%27 stroke-width=%275%27 fill=%27none%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E';">
+        <img id="hero-logo" class="hero-logo" src="assets/logo.png" alt="Velin Media">
         <h1>VELIN MEDIA</h1>
         <p class="hero-subtitle">CREATIVE HOUSE</p>
         <p class="hero-tagline">For Bold & Elegant Brands — Est. 2025</p>
@@ -390,8 +391,7 @@
     </div>
 
     <script>
-        // NOTE: removed the old setLocalLogos() loader to prevent the PNG->SVG flash.
-        // ----- Project image mapping (assets) -----
+        // Project image mapping (assets)
         const imageMap = {
             'vogue-img': 'assets/vogue-male.png',
             'cafe-img' : 'assets/cafe-edit.png',
@@ -414,10 +414,9 @@
             });
         })();
 
-        // ----- Smooth scrolling for nav links & ensure clicking doesn't break typography -----
+        // Smooth scrolling for nav links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                // allow mailto and external links as-is
                 const href = this.getAttribute('href');
                 if (!href || href.indexOf('mailto:') === 0 || href.indexOf('http') === 0) return;
                 e.preventDefault();
@@ -425,19 +424,18 @@
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
-                // do not change font or apply heavy style on click — we keep it subtle
                 document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
                 this.classList.add('active');
             });
         });
 
-        // ----- Navbar scroll effect (unchanged original) -----
+        // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('.nav');
             if (window.scrollY > 100) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
         });
 
-        // ----- Intersection observer for body background class (original) -----
+        // Section observer for body class
         const sections = document.querySelectorAll('section[id]');
         const observerOptions = { threshold: 0.3 };
         const sectionObserver = new IntersectionObserver((entries) => {
@@ -450,7 +448,7 @@
         }, observerOptions);
         sections.forEach(section => sectionObserver.observe(section));
 
-        // ----- Make services interactive (modal) + accessible ----- 
+        // Modal logic (services + projects)
         const modal = document.getElementById('modal');
         const modalBackdrop = document.getElementById('modal-backdrop');
         const modalClose = document.getElementById('modal-close');
@@ -478,7 +476,6 @@
             }
             modal.classList.add('open');
             modal.setAttribute('aria-hidden', 'false');
-            // set focus to close for accessibility
             modalClose.focus();
             document.body.style.overflow = 'hidden';
         }
@@ -493,7 +490,7 @@
         modalClose.addEventListener('click', closeModal);
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
-        // wire service cards
+        // Wire service cards
         document.querySelectorAll('.service-card').forEach(card => {
             card.addEventListener('click', () => {
                 const title = card.querySelector('h3')?.innerText || 'Service';
@@ -503,7 +500,7 @@
             card.addEventListener('keypress', (e) => { if (e.key === 'Enter') card.click(); });
         });
 
-        // wire project cards — use backgroundImage if available
+        // Wire project cards
         document.querySelectorAll('.project-card').forEach(card => {
             card.addEventListener('click', () => {
                 const title = card.querySelector('h3')?.innerText || 'Project';
@@ -520,7 +517,7 @@
         });
 
         // small helpful console message
-        console.log('Velin Media — original layout restored; project & service modal active.');
+        console.log('Velin Media — animations + modal active.');
     </script>
 </body>
 </html>
