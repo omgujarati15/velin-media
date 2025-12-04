@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Velin Media - Creative House for Bold & Elegant Brands</title>
 
+    <!-- preload the logo so the PNG is fetched early -->
+    <link rel="preload" href="assets/logo.png" as="image">
+
     <!-- Fonts (same as original) -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
@@ -60,8 +63,7 @@
         }
 
         .nav-links a::after {
-            content:'';
-            position:absolute; bottom:0; left:0; width:0; height:1px; background:#2c3338; transition:width .3s ease;
+            content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:#2c3338; transition:width .3s ease;
         }
         .nav-links a:hover::after { width:100%; }
 
@@ -216,7 +218,12 @@
     <!-- NAV -->
     <nav class="nav">
         <div class="logo-container">
-            <img id="main-logo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M60 50 L80 130 M80 50 Q110 90 80 130 M120 50 L120 130' stroke='%232c3338' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" alt="Velin Media Logo" class="logo-img">
+            <!-- prefer PNG first; fallback to inline SVG only if PNG fails -->
+            <img id="main-logo"
+                 src="assets/logo.png"
+                 alt="Velin Media Logo"
+                 class="logo-img"
+                 onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 200 200%27%3E%3Cpath d=%27M60 50 L80 130 M80 50 Q110 90 80 130 M120 50 L120 130%27 stroke=%27%232c3338%27 stroke-width=%275%27 fill=%27none%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E';">
             <div class="logo">VELIN MEDIA</div>
         </div>
 
@@ -230,7 +237,12 @@
 
     <!-- HERO -->
     <section class="hero">
-        <img id="hero-logo" class="hero-logo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M60 50 L80 130 M80 50 Q110 90 80 130 M120 50 L120 130' stroke='%232c3338' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" alt="Velin Media">
+        <!-- prefer PNG first; fallback to inline SVG only if PNG fails -->
+        <img id="hero-logo"
+             class="hero-logo"
+             src="assets/logo.png"
+             alt="Velin Media"
+             onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 200 200%27%3E%3Cpath d=%27M60 50 L80 130 M80 50 Q110 90 80 130 M120 50 L120 130%27 stroke=%27%232c3338%27 stroke-width=%275%27 fill=%27none%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E';">
         <h1>VELIN MEDIA</h1>
         <p class="hero-subtitle">CREATIVE HOUSE</p>
         <p class="hero-tagline">For Bold & Elegant Brands — Est. 2025</p>
@@ -378,24 +390,7 @@
     </div>
 
     <script>
-      
-        (function setLocalLogos() {
-            const logoPath = 'assets/logo.png';
-            const main = document.getElementById('main-logo');
-            const hero = document.getElementById('hero-logo');
-            // Attempt to load - if missing, fallback to existing inline SVG
-            const img = new Image();
-            img.onload = () => {
-                if (main) main.src = logoPath;
-                if (hero) hero.src = logoPath;
-            };
-            img.onerror = () => {
-                // keep existing inline SVG (no console error to avoid too much noise)
-                console.warn('assets/logo.png not found — using inline SVG fallback.');
-            };
-            img.src = logoPath;
-        })();
-
+        // NOTE: removed the old setLocalLogos() loader to prevent the PNG->SVG flash.
         // ----- Project image mapping (assets) -----
         const imageMap = {
             'vogue-img': 'assets/vogue-male.png',
