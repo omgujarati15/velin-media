@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Velin Media - Creative House for Bold & Elegant Brands</title>
+
+    <!-- Fonts (same as original) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* === Original reset + base (kept original sizes & look) === */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: #f5f3f0;
+            color: #2c3338;
+            overflow-x: hidden;
+            transition: background-color 0.8s ease;
+        }
+
+        /* Section background classes (original) */
+        body.section-about { background: #f5f3f0; }
+        body.section-services { background: #e8e4df; }
+        body.section-projects { background: #f9f7f4; }
+        body.section-contact { background: #2c3338; }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(245, 243, 240, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(44, 51, 56, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav.scrolled {
+            padding: 1rem 4rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo-container { display:flex; align-items:center; gap:1rem; }
+        .logo-img { width:50px; height:50px; object-fit:contain; transition:transform .3s ease; }
+        .logo-img:hover { transform: scale(1.05); }
+        .logo { font-size:1.5rem; font-weight:600; letter-spacing:2px; }
+
+        .nav-links {
+            display:flex; gap:3rem; list-style:none;
+            font-family:'Montserrat',sans-serif; font-size:0.9rem; letter-spacing:1px;
+        }
+
+        .nav-links a {
+            text-decoration:none; color:#2c3338; transition: all .3s; position:relative; padding:0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content:'';
+            position:absolute; bottom:0; left:0; width:0; height:1px; background:#2c3338; transition:width .3s ease;
+        }
+        .nav-links a:hover::after { width:100%; }
+
+        /* === HERO - restore original animated grid and sizes === */
+        .hero {
+            height: 100vh;
+            display:flex; flex-direction:column; justify-content:center; align-items:center;
+            text-align:center; padding:0 2rem; position:relative; overflow:hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(44,51,56,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGrid 20s linear infinite;
+            opacity: 1;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero-logo {
+            width: 140px;      /* original size restored */
+            height: 140px;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s forwards;
+            filter: drop-shadow(0 4px 20px rgba(0,0,0,0.1));
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 5rem;   /* original larger size */
+            font-weight: 300; letter-spacing:4px; margin-bottom:1rem;
+            opacity:0; animation: fadeInUp 1s 0.3s forwards; position:relative; z-index:1;
+        }
+
+        .hero-subtitle {
+            font-size:1.3rem; font-weight:300; letter-spacing:3px; margin-bottom:1rem;
+            opacity:0; animation: fadeInUp 1s 0.6s forwards; position:relative; z-index:1;
+        }
+
+        .hero-tagline {
+            font-family:'Montserrat',sans-serif; font-size:0.95rem; font-weight:300; letter-spacing:1px;
+            opacity:0.6; max-width:600px; margin-top:2rem; opacity:0; animation: fadeInUp 1s 0.9s forwards;
+            position:relative; z-index:1;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity:1; transform: translateY(0); }
+            from { opacity:0; transform: translateY(20px); }
+        }
+
+        /* === sections (original spacing) === */
+        .section { padding: 8rem 4rem; max-width:1400px; margin:0 auto; position:relative; }
+        .section-title { font-size:3rem; font-weight:300; letter-spacing:3px; margin-bottom:1rem; text-align:center; }
+        .section-subtitle { font-family:'Montserrat',sans-serif; font-size:0.9rem; letter-spacing:2px; text-align:center; opacity:0.6; margin-bottom:5rem; }
+
+        .about-content { display:grid; grid-template-columns:1fr 1fr; gap:4rem; margin-top:4rem; }
+        .about-text { font-size:1.1rem; line-height:2; font-weight:300; padding:2rem; background: rgba(255,255,255,0.5); border-radius:8px; transition:transform .3s ease; }
+        .about-text:hover { transform: translateY(-5px); }
+
+        /* === services (improved without changing look) === */
+        .services-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:2rem; margin-top:4rem; }
+        .service-card {
+            padding:3rem 2.5rem; background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(232,228,223,0.8) 100%);
+            border:1px solid rgba(44,51,56,0.08); border-radius:12px; transition:all .4s cubic-bezier(.4,0,.2,1);
+            position:relative; overflow:hidden; cursor:pointer;
+            /* prevent focus from changing typography */
+            -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+        }
+        .service-card::before {
+            content:''; position:absolute; top:0; left:0; width:100%; height:100%;
+            background: linear-gradient(135deg, rgba(44,51,56,0.05) 0%, transparent 100%); opacity:0; transition:opacity .4s ease;
+        }
+        .service-card:hover::before { opacity:1; }
+        .service-card:hover { transform: translateY(-10px) scale(1.02); box-shadow:0 20px 40px rgba(0,0,0,0.15); border-color: rgba(44,51,56,0.15); }
+        .service-number { font-size:4rem; font-weight:300; opacity:0.1; position:absolute; top:1rem; right:1.5rem; transition:all .4s ease; }
+        .service-card:hover .service-number { opacity:0.2; transform:scale(1.1); }
+        .service-card h3 { font-size:1.8rem; margin-bottom:1rem; font-weight:500; position:relative; z-index:1; }
+        .service-card p { font-family:'Montserrat',sans-serif; font-size:0.95rem; line-height:1.8; opacity:0.7; position:relative; z-index:1; }
+
+        /* === projects (improved UI but original look preserved) === */
+        .projects-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap:2.5rem; margin-top:4rem; }
+        .project-card { background:white; overflow:hidden; border:1px solid rgba(44,51,56,0.1); border-radius:8px; transition:all .4s cubic-bezier(.4,0,.2,1); cursor:pointer; }
+        .project-card:hover { transform: translateY(-10px); box-shadow:0 20px 40px rgba(0,0,0,0.15); }
+        .project-image { width:100%; height:350px; background-size:cover; background-position:center; background-repeat:no-repeat; position:relative; overflow:hidden; }
+        .project-image::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 100%); opacity:0; transition:opacity .4s ease; }
+        .project-card:hover .project-image::after { opacity:1; }
+        .project-content { padding:2rem; }
+        .project-content h3 { font-size:1.8rem; margin-bottom:0.5rem; font-weight:500; }
+        .project-content p { font-family:'Montserrat',sans-serif; font-size:0.9rem; line-height:1.7; opacity:0.7; }
+
+        /* contact section - preserve original layout (Instagram remains here) */
+        .contact-section { background:#2c3338; color:#f5f3f0; padding:8rem 4rem; text-align:center; }
+        .contact-section .section-title { color:#f5f3f0; }
+        .contact-section .section-subtitle { color: rgba(245,243,240,0.6); }
+
+        .contact-info { margin-top:4rem; font-family:'Montserrat',sans-serif; font-size:1.1rem; display:flex; flex-direction:column; gap:2rem; align-items:center; }
+        .contact-item { display:flex; flex-direction:column; align-items:center; gap:0.5rem; }
+        .contact-label { font-size:0.8rem; letter-spacing:2px; opacity:0.5; text-transform:uppercase; }
+        .contact-info a { color:#f5f3f0; text-decoration:none; transition:all .3s; position:relative; font-size:1.2rem; }
+        .contact-info a::after { content:''; position:absolute; bottom:-5px; left:0; width:0; height:1px; background:#f5f3f0; transition:width .3s ease; }
+        .contact-info a:hover::after { width:100%; }
+        .contact-info a:hover { transform: translateY(-2px); }
+
+        .cta-button {
+            display:inline-block; margin-top:3rem; padding:1.2rem 3.5rem; background:transparent; border:2px solid #f5f3f0; color:#f5f3f0;
+            font-family:'Montserrat',sans-serif; font-size:0.9rem; letter-spacing:2px; text-decoration:none; transition:all .4s cubic-bezier(.4,0,.2,1);
+            position:relative; overflow:hidden; border-radius:4px;
+        }
+        .cta-button::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:#f5f3f0; transition:left .4s cubic-bezier(.4,0,.2,1); z-index:-1; }
+        .cta-button:hover::before { left:0; }
+        .cta-button:hover { color:#2c3338; transform:translateY(-3px); box-shadow:0 10px 25px rgba(245,243,240,0.2); }
+
+        .footer { padding:2rem; text-align:center; font-family:'Montserrat',sans-serif; font-size:0.8rem; opacity:0.6; letter-spacing:1px; background:#1a1f23; color:#f5f3f0; }
+
+        /* modal styles (kept simple, accessible) */
+        .modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 2000; }
+        .modal.open { display:flex; }
+        .modal-backdrop { position:absolute; inset:0; background: rgba(10,10,10,0.6); }
+        .modal-card { position:relative; background: white; width: min(1100px,95%); max-height:90vh; overflow:auto; border-radius:10px; box-shadow:0 30px 80px rgba(0,0,0,0.4); z-index:2; display:grid; grid-template-columns:1fr 1fr; }
+        .modal-media { min-height:300px; background-size:cover; background-position:center; }
+        .modal-body { padding:2.5rem; font-family:'Montserrat',sans-serif; color:#222; }
+        .modal-body h3 { margin-bottom:1rem; font-size:2rem; }
+        .modal-close { position:absolute; top:1rem; right:1rem; background:transparent; border:none; font-size:1.25rem; cursor:pointer; padding:0.5rem; }
+
+        @media (max-width:768px) {
+            .nav { padding:1.5rem 2rem; flex-direction:column; gap:1rem; }
+            .nav-links { gap:1.5rem; font-size:0.8rem; }
+            .hero h1 { font-size:3rem; }
+            .hero-subtitle { font-size:1rem; }
+            .section { padding:4rem 2rem; }
+            .about-content { grid-template-columns:1fr; gap:2rem; }
+            .projects-grid { grid-template-columns:1fr; }
+            .services-grid { grid-template-columns:1fr; }
+            .modal-card { grid-template-columns:1fr; }
+            .hero-logo { width: 120px; height: 120px; }
+        }
+
+        /* keep focus styles subtle and not changing typography */
+        a:focus, button:focus, .service-card:focus, .project-card:focus { outline:none; box-shadow: 0 0 0 4px rgba(44,51,56,0.06); border-radius:6px; }
+    </style>
+</head>
+<body>
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="logo-container">
+            <img id="main-logo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M60 50 L80 130 M80 50 Q110 90 80 130 M120 50 L120 130' stroke='%232c3338' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" alt="Velin Media Logo" class="logo-img">
+            <div class="logo">VELIN MEDIA</div>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#about">ABOUT</a></li>
+            <li><a href="#services">SERVICES</a></li>
+            <li><a href="#projects">PROJECTS</a></li>
+            <li><a href="#contact">CONTACT</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <img id="hero-logo" class="hero-logo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M60 50 L80 130 M80 50 Q110 90 80 130 M120 50 L120 130' stroke='%232c3338' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" alt="Velin Media">
+        <h1>VELIN MEDIA</h1>
+        <p class="hero-subtitle">CREATIVE HOUSE</p>
+        <p class="hero-tagline">For Bold & Elegant Brands — Est. 2025</p>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+        <h2 class="section-title">ABOUT</h2>
+        <p class="section-subtitle">DESIGN THAT FEELS AS GOOD AS IT LOOKS</p>
+
+        <div class="about-content">
+            <div class="about-text">
+                <h3>Our Story</h3>
+                <p>Founded by Om in 2025, Velin Media was born from a vision to blend creativity with meaning. We believe every design should not just look beautiful — but speak with purpose.</p>
+            </div>
+            <div class="about-text">
+                <h3>Our Vision</h3>
+                <p>To craft visual identities that connect brands with emotion — merging elegance, clarity, and storytelling into one timeless language.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="section">
+        <h2 class="section-title">SERVICES</h2>
+        <p class="section-subtitle">WHAT WE CREATE</p>
+
+        <div class="services-grid">
+            <div class="service-card" tabindex="0">
+                <span class="service-number">01</span>
+                <h3>Brand Identity</h3>
+                <p>We shape visuals that define who you are. From logos to complete brand systems, we create identities that resonate.</p>
+            </div>
+            <div class="service-card" tabindex="0">
+                <span class="service-number">02</span>
+                <h3>Social Media Strategy</h3>
+                <p>Turning attention into connection. Strategic content that builds communities and drives engagement.</p>
+            </div>
+            <div class="service-card" tabindex="0">
+                <span class="service-number">03</span>
+                <h3>Content Production</h3>
+                <p>From vision to viral — we create what people remember. Photography, videography, and motion design.</p>
+            </div>
+            <div class="service-card" tabindex="0">
+                <span class="service-number">04</span>
+                <h3>Marketing Campaigns</h3>
+                <p>Smart ideas, real results. Integrated campaigns that move audiences and metrics.</p>
+            </div>
+            <div class="service-card" tabindex="0">
+                <span class="service-number">05</span>
+                <h3>Creative Direction</h3>
+                <p>Every frame, every color — designed with purpose. Comprehensive creative leadership for your brand.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+        <h2 class="section-title">PROJECTS</h2>
+        <p class="section-subtitle">SELECTED WORKS</p>
+
+        <div class="projects-grid">
+            <div class="project-card" tabindex="0">
+                <div class="project-image" id="vogue-img"></div>
+                <div class="project-content">
+                    <h3>Vogue Reimagined</h3>
+                    <p>A visual interpretation of timeless fashion — blending classic elegance with modern boldness. Editorial mood, cream-white tones, strong lighting contrast.</p>
+                </div>
+            </div>
+
+            <div class="project-card" tabindex="0">
+                <div class="project-image" id="cafe-img"></div>
+                <div class="project-content">
+                    <h3>The Art of Café Design</h3>
+                    <p>Inspired by soft tones and slow mornings, this café branding explores minimal luxury through texture, light, and typography.</p>
+                </div>
+            </div>
+
+            <div class="project-card" tabindex="0">
+                <div class="project-image" id="sneaker-img"></div>
+                <div class="project-content">
+                    <h3>The Sneaker Edit</h3>
+                    <p>Where design meets movement. A curated exploration celebrating motion, detail, and identity for brands that walk the fine line between performance and style.</p>
+                </div>
+            </div>
+
+            <div class="project-card" tabindex="0">
+                <div class="project-image" id="drip-img"></div>
+                <div class="project-content">
+                    <h3>Drip Ethos</h3>
+                    <p>Style. Story. Street. A collection that defines the rhythm of the streets — where design meets attitude and confidence.</p>
+                </div>
+            </div>
+
+            <div class="project-card" tabindex="0">
+                <div class="project-image" id="jewelry-img"></div>
+                <div class="project-content">
+                    <h3>Adorned</h3>
+                    <p>Elegance in every detail. A visual ode to timeless beauty capturing the art of minimal luxury through light, texture, and sophistication.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact-section">
+        <h2 class="section-title">CONNECT</h2>
+        <p class="section-subtitle">Every great story begins with a conversation</p>
+
+        <div class="contact-info">
+            <div class="contact-item">
+                <span class="contact-label">Email</span>
+                <a href="mailto:connect.velinmedia@gmail.com">connect.velinmedia@gmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span class="contact-label">Instagram</span>
+                <a href="https://instagram.com/velin.media" target="_blank">@velin.media</a>
+            </div>
+        </div>
+
+        <a href="mailto:connect.velinmedia@gmail.com" class="cta-button">LET'S CRAFT YOURS</a>
+        <a href="assets/velin_portfolio.pdf" download class="cta-button" > DOWNLOAD PORTFOLIO</a>
+
+    </section>
+
+    <footer class="footer">
+        <p>© 2025 VELIN MEDIA — CREATIVE HOUSE FOR BOLD & ELEGANT BRANDS</p>
+    </footer>
+
+    <!-- Modal (for projects/services) -->
+    <div id="modal" class="modal" aria-hidden="true">
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+            <div class="modal-media" id="modal-media"></div>
+            <div class="modal-body">
+                <h3 id="modal-title">Title</h3>
+                <p id="modal-desc">Description</p>
+                <div style="margin-top:1.5rem; display:flex; gap:1rem;">
+                    <a id="modal-action" class="cta-button" href="#" style="display:none">View Project</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      
+        (function setLocalLogos() {
+            const logoPath = 'assets/logo.png';
+            const main = document.getElementById('main-logo');
+            const hero = document.getElementById('hero-logo');
+            // Attempt to load - if missing, fallback to existing inline SVG
+            const img = new Image();
+            img.onload = () => {
+                if (main) main.src = logoPath;
+                if (hero) hero.src = logoPath;
+            };
+            img.onerror = () => {
+                // keep existing inline SVG (no console error to avoid too much noise)
+                console.warn('assets/logo.png not found — using inline SVG fallback.');
+            };
+            img.src = logoPath;
+        })();
+
+        // ----- Project image mapping (assets) -----
+        const imageMap = {
+            'vogue-img': 'assets/vogue-male.png',
+            'cafe-img' : 'assets/cafe-edit.png',
+            'sneaker-img' : 'assets/sneaker-edit.png',
+            'drip-img' : 'assets/drip-ethos.png',
+            'jewelry-img' : 'assets/adorne.png'
+        };
+
+        (function loadProjectImages() {
+            Object.entries(imageMap).forEach(([id, path]) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const img = new Image();
+                img.onload = () => { el.style.backgroundImage = `url('${path}')`; };
+                img.onerror = () => {
+                    console.error('Failed to load', path);
+                    el.style.background = '#f1f1f1';
+                };
+                img.src = path;
+            });
+        })();
+
+        // ----- Smooth scrolling for nav links & ensure clicking doesn't break typography -----
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // allow mailto and external links as-is
+                const href = this.getAttribute('href');
+                if (!href || href.indexOf('mailto:') === 0 || href.indexOf('http') === 0) return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                // do not change font or apply heavy style on click — we keep it subtle
+                document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // ----- Navbar scroll effect (unchanged original) -----
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 100) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+        });
+
+        // ----- Intersection observer for body background class (original) -----
+        const sections = document.querySelectorAll('section[id]');
+        const observerOptions = { threshold: 0.3 };
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.id;
+                    document.body.className = `section-${sectionId}`;
+                }
+            });
+        }, observerOptions);
+        sections.forEach(section => sectionObserver.observe(section));
+
+        // ----- Make services interactive (modal) + accessible ----- 
+        const modal = document.getElementById('modal');
+        const modalBackdrop = document.getElementById('modal-backdrop');
+        const modalClose = document.getElementById('modal-close');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-desc');
+        const modalMedia = document.getElementById('modal-media');
+        const modalAction = document.getElementById('modal-action');
+
+        function openModal({ title = '', desc = '', media = null, action = null }) {
+            modalTitle.innerText = title;
+            modalDesc.innerText = desc;
+            if (media) {
+                modalMedia.style.backgroundImage = `url('${media}')`;
+                modalMedia.style.display = '';
+            } else {
+                modalMedia.style.backgroundImage = '';
+                modalMedia.style.display = 'none';
+            }
+            if (action && action.href) {
+                modalAction.href = action.href;
+                modalAction.innerText = action.text || 'View Project';
+                modalAction.style.display = '';
+            } else {
+                modalAction.style.display = 'none';
+            }
+            modal.classList.add('open');
+            modal.setAttribute('aria-hidden', 'false');
+            // set focus to close for accessibility
+            modalClose.focus();
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        modalBackdrop.addEventListener('click', closeModal);
+        modalClose.addEventListener('click', closeModal);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+        // wire service cards
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const title = card.querySelector('h3')?.innerText || 'Service';
+                const desc = card.querySelector('p')?.innerText || '';
+                openModal({ title, desc, media: null, action: null });
+            });
+            card.addEventListener('keypress', (e) => { if (e.key === 'Enter') card.click(); });
+        });
+
+        // wire project cards — use backgroundImage if available
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const title = card.querySelector('h3')?.innerText || 'Project';
+                const desc = card.querySelector('p')?.innerText || '';
+                const imgEl = card.querySelector('.project-image');
+                let bg = window.getComputedStyle(imgEl).backgroundImage;
+                let url = null;
+                if (bg && bg !== 'none') {
+                    url = bg.replace(/^url\(['"]?/, '').replace(/['"]?\)$/, '');
+                }
+                openModal({ title, desc, media: url, action: null });
+            });
+            card.addEventListener('keypress', (e) => { if (e.key === 'Enter') card.click(); });
+        });
+
+        // small helpful console message
+        console.log('Velin Media — original layout restored; project & service modal active.');
+    </script>
+</body>
+</html>
